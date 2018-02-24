@@ -1,0 +1,33 @@
+{
+  reportDir console/target/detangled
+  searchPaths
+  [
+    ./console/target/learn-aws.jar
+  ]
+  level 2
+  startsWith
+  {
+    include
+    [
+      [
+        com
+        seanshubin
+        learn
+        aws
+      ]
+    ]
+    exclude []
+    drop
+    [
+      [
+        com
+        seanshubin
+        learn
+        aws
+      ]
+    ]
+  }
+  ignoreFiles []
+  canFailBuild true
+  allowedInCycle console/detangler-allowed-in-cycle.txt
+}
