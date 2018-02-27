@@ -9,6 +9,10 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-rds</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-actor_2.12</artifactId>
+        </dependency>
     </dependencies>
     <parent>
         <groupId>com.seanshubin.learn.aws</groupId>

@@ -6,6 +6,11 @@
     <artifactId>learn-aws-prototype</artifactId>
     <dependencies>
         <dependency>
+            <groupId>com.seanshubin.learn.aws</groupId>
+            <artifactId>learn-aws-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-rds</artifactId>
         </dependency>

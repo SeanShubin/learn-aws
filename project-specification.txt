@@ -20,6 +20,10 @@
       artifact scalatest_2.12
       scope    test
     }
+    akka {
+      group com.typesafe.akka
+      artifact akka-actor_2.12
+    }
     aws-java-sdk-rds {
       group    com.amazonaws
       artifact aws-java-sdk-rds
@@ -28,8 +32,8 @@
   global [scala-library scala-test]
   modules {
     console         [domain]
-    domain          [aws-java-sdk-rds]
-    prototype       [aws-java-sdk-rds]
+    domain          [aws-java-sdk-rds akka]
+    prototype       [domain aws-java-sdk-rds]
   }
   detangler [console]
   consoleEntryPoint {
