@@ -1,10 +1,12 @@
 package com.seanshubin.learn.aws.prototype
 
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.{Executors, TimeUnit}
 
-import akka.actor.ActorSystem
+import akka.actor.LightArrayRevolverScheduler
+import akka.event.NoLogging
 import com.amazonaws.services.rds.AmazonRDSAsyncClientBuilder
 import com.amazonaws.services.rds.model.{CreateDBInstanceRequest, DeleteDBInstanceRequest, DescribeDBInstancesRequest}
+import com.typesafe.config.ConfigFactory
 
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -13,7 +15,11 @@ import scala.concurrent.{Await, Promise}
 
 class MyDatabaseApi {
   private val client = AmazonRDSAsyncClientBuilder.defaultClient()
-  private val actorSystem = ActorSystem("MyDatabaseApi")
+  private val config = ConfigFactory.defaultReference()
+  private val log = NoLogging
+  private val threadFactory = Executors.defaultThreadFactory()
+  private val scheduler = new LightArrayRevolverScheduler(config, log, threadFactory)
+
 
   def createDatabase(instanceIdentifier: String): Unit = {
     val createDbInstanceRequest = new CreateDBInstanceRequest().
@@ -49,7 +55,7 @@ class MyDatabaseApi {
         itsGoneNow.success(())
       }
     }
-    val periodic = actorSystem.scheduler.schedule(howSoonToStartChecking, howOftenToCheck, checkIfDatabaseGone)
+    val periodic = scheduler.schedule(howSoonToStartChecking, howOftenToCheck, checkIfDatabaseGone)
     try {
       Await.ready(itsGoneNow.future, timeoutDuration)
     } finally {
